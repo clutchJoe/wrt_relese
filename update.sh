@@ -31,19 +31,6 @@ clone_repo() {
         echo $REPO_URL $REPO_BRANCH
         git clone --depth 1 -b $REPO_BRANCH $REPO_URL $BUILD_DIR
     fi
-
-    if [[ "$BUILD_DIR" == *"imm-nss"* ]]; then
-        echo "检测到 IPQ60XX"
-        # start, copy from https://github.com/clutchJoe/OpenWRT-dae/blob/4250d422896f8d9d9c0426731f8dd4686e614924/Scripts/function.sh#L118C3-L123C113
-        image_file=$BUILD_DIR'/target/linux/qualcommax/image/ipq60xx.mk'
-        echo $image_file
-        sed -i "/^define Device\/jdcloud_re-ss-01/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
-        sed -i "/^define Device\/jdcloud_re-cs-02/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
-        sed -i "/^define Device\/jdcloud_re-cs-07/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
-        sed -i "/^define Device\/redmi_ax5-jdcloud/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
-        sed -i "/^define Device\/linksys_mr/,/^endef/ { /KERNEL_SIZE := 8192k/s//KERNEL_SIZE := 12288k/ }" $image_file
-        # end
-    fi
 }
 
 clean_up() {
@@ -67,6 +54,18 @@ reset_feeds_conf() {
     git pull
     if [[ $COMMIT_HASH != "none" ]]; then
         git checkout $COMMIT_HASH
+    fi
+
+    if [[ "$BUILD_DIR" == *"imm-nss"* ]]; then
+        echo "检测到 IPQ60XX"
+        # start, copy from https://github.com/clutchJoe/OpenWRT-dae/blob/4250d422896f8d9d9c0426731f8dd4686e614924/Scripts/function.sh#L118C3-L123C113
+        image_file='./target/linux/qualcommax/image/ipq60xx.mk'
+        sed -i "/^define Device\/jdcloud_re-ss-01/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+        sed -i "/^define Device\/jdcloud_re-cs-02/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+        sed -i "/^define Device\/jdcloud_re-cs-07/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+        sed -i "/^define Device\/redmi_ax5-jdcloud/,/^endef/ { /KERNEL_SIZE := 6144k/s//KERNEL_SIZE := 12288k/ }" $image_file
+        sed -i "/^define Device\/linksys_mr/,/^endef/ { /KERNEL_SIZE := 8192k/s//KERNEL_SIZE := 12288k/ }" $image_file
+        # end
     fi
 }
 
