@@ -210,6 +210,21 @@ fix_default_set() {
     fi
 }
 
+fix_argon_theme() {
+  local argon_dir="$BUILD_DIR/package/luci-theme-argon"
+  ls $argon_dir
+  if [ -d "$argon_dir" ]; then
+	echo " "
+
+	# cd ./luci-theme-argon/
+
+	sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find $argon_dir/luci-theme-argon -type f -iname "*.css")
+	sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" $argon_dir/luci-app-argon-config/root/etc/config/argon
+
+	echo "theme-argon has been fixed!"
+  fi
+}
+
 fix_miniupnpd() {
     local miniupnpd_dir="$BUILD_DIR/feeds/packages/net/miniupnpd"
     local patch_file="999-chanage-default-leaseduration.patch"
@@ -908,6 +923,7 @@ main() {
     remove_unwanted_packages
     update_homeproxy
     fix_default_set
+    fix_argon_theme
     fix_miniupnpd
     update_golang
     change_dnsmasq2full
