@@ -95,7 +95,7 @@ update_feeds() {
 remove_unwanted_packages() {
     local luci_packages=(
         "luci-app-passwall" "luci-app-smartdns" "luci-app-ddns-go" "luci-app-rclone"
-        "luci-app-ssr-plus" "luci-app-vssr" "luci-theme-argon" "luci-app-daed" "luci-app-dae"
+        "luci-app-ssr-plus" "luci-app-vssr" "luci-app-daed" "luci-app-dae"
         "luci-app-alist" "luci-app-homeproxy" "luci-app-haproxy-tcp"
         "luci-app-openclash" "luci-app-mihomo" "luci-app-appfilter" "luci-app-msd_lite"
     )
@@ -111,7 +111,7 @@ remove_unwanted_packages() {
         "cups"
     )
     local small8_packages=(
-        "ppp" "firewall" "dae" "daed" "daed-next" "libnftnl" "nftables" "dnsmasq" "luci-app-alist" "alist"
+        "ppp" "firewall" "dae" "daed" "daed-next" "libnftnl" "nftables" "dnsmasq" "luci-app-alist" "alist" "luci-app-argon-config" "luci-theme-argon"
     )
 
     for pkg in "${luci_packages[@]}"; do
