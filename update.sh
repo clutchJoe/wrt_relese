@@ -923,7 +923,7 @@ main() {
     remove_unwanted_packages
     update_homeproxy
     fix_default_set
-    fix_argon_theme
+    # fix_argon_theme
     fix_miniupnpd
     update_golang
     change_dnsmasq2full
