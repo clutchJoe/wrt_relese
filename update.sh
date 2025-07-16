@@ -370,7 +370,7 @@ update_argon_theme() {
   git clone --depth=1 --single-branch --branch openwrt-24.10 https://github.com/sbwml/luci-theme-argon.git "$argon_dir"
   # cd ./luci-theme-argon/
 
-  sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find $argon_dir/luci-theme-argon -type f -iname "*.css")
+  # sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find $argon_dir/luci-theme-argon -type f -iname "*.css")
   sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" $argon_dir/luci-app-argon-config/root/etc/config/argon
 
   echo "theme-argon has been fixed!"
