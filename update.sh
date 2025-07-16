@@ -363,7 +363,7 @@ add_ax6600_led() {
 
 update_argon_theme() {
   local argon_dir="$BUILD_DIR/package/luci-theme-argon"
-  ls $argon_dir
+  # ls $argon_dir
   # if [ -d "$argon_dir" ]; then
   echo " "
   rm -rf "$argon_dir" 2>/dev/null
