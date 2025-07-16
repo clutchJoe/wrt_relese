@@ -96,7 +96,7 @@ remove_unwanted_packages() {
     local luci_packages=(
         "luci-app-passwall" "luci-app-smartdns" "luci-app-ddns-go" "luci-app-rclone"
         "luci-app-ssr-plus" "luci-app-vssr" "luci-app-daed" "luci-app-dae"
-        "luci-app-alist" "luci-app-homeproxy" "luci-app-haproxy-tcp"
+        "luci-app-alist" "luci-app-homeproxy" "luci-app-haproxy-tcp" "luci-app-argon-config" "luci-theme-argon"
         "luci-app-openclash" "luci-app-mihomo" "luci-app-appfilter" "luci-app-msd_lite"
     )
     local packages_net=(
@@ -208,21 +208,6 @@ fix_default_set() {
             \cp -f "$BASE_PATH/patches/tempinfo" "$BUILD_DIR/package/emortal/autocore/files/tempinfo"
         fi
     fi
-}
-
-fix_argon_theme() {
-  local argon_dir="$BUILD_DIR/package/luci-theme-argon"
-  ls $argon_dir
-  if [ -d "$argon_dir" ]; then
-	echo " "
-
-	# cd ./luci-theme-argon/
-
-	sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find $argon_dir/luci-theme-argon -type f -iname "*.css")
-	sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" $argon_dir/luci-app-argon-config/root/etc/config/argon
-
-	echo "theme-argon has been fixed!"
-  fi
 }
 
 fix_miniupnpd() {
@@ -374,6 +359,22 @@ add_ax6600_led() {
     # 设置执行权限
     chmod +x "$athena_led_dir/root/usr/sbin/athena-led"
     chmod +x "$athena_led_dir/root/etc/init.d/athena_led"
+}
+
+update_argon_theme() {
+  local argon_dir="$BUILD_DIR/package/luci-theme-argon"
+  ls $argon_dir
+  # if [ -d "$argon_dir" ]; then
+  echo " "
+  rm -rf "$argon_dir" 2>/dev/null
+  git clone --depth=1 --single-branch --branch openwrt-24.10 https://github.com/sbwml/luci-theme-argon.git "$argon_dir"
+  # cd ./luci-theme-argon/
+
+  sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find $argon_dir/luci-theme-argon -type f -iname "*.css")
+  sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" $argon_dir/luci-app-argon-config/root/etc/config/argon
+
+  echo "theme-argon has been fixed!"
+  # fi
 }
 
 change_cpuusage() {
@@ -923,7 +924,6 @@ main() {
     remove_unwanted_packages
     update_homeproxy
     fix_default_set
-    # fix_argon_theme
     fix_miniupnpd
     update_golang
     change_dnsmasq2full
@@ -938,6 +938,7 @@ main() {
     change_cpuusage
     update_tcping
     add_ax6600_led
+    update_argon_theme
     set_custom_task
     update_pw
     install_opkg_distfeeds
