@@ -1041,7 +1041,7 @@ main() {
     update_diskman
     set_nginx_default_config
     update_uwsgi_limit_as
-    update_argon
+    # update_argon
     install_feeds
     support_fw4_adg
     update_script_priority
